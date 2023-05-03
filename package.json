@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "webpack serve",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production webpack cp ./dist ./public",
     "test": "jest --colors",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage"
@@ -56,6 +56,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "bootstrap": "^5.3.0-alpha3",
     "npm-check-updates": "^16.6.2",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0"
