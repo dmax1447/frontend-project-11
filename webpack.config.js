@@ -1,6 +1,7 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
-export default {
+module.exports = {
   mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
@@ -14,10 +15,9 @@ export default {
           },
         },
       },
-      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
       {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+        test: /\.(scss|css)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -31,10 +31,11 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'template.html',
+      template: 'src/index.html',
     }),
   ],
   output: {
     clean: true,
+    path: path.resolve(__dirname, 'public'),
   },
 };
