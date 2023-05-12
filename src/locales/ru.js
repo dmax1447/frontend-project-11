@@ -4,5 +4,6 @@ export default {
     url_exist: 'Такой URL уже добавлен',
     url_added: 'URL успешно добавлен',
     url_invalid: 'Ссылка должна быть валидным URL',
+    fetch_error: 'Ошибка загрузки фида',
   },
 };
