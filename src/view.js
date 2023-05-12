@@ -26,6 +26,7 @@ const render = (path, value, prevValue) => {
       break;
     case 'form.url':
       view.input.value = value;
+      view.input.focus();
       break;
     default:
       console.warn('unknown path', path);
@@ -33,4 +34,12 @@ const render = (path, value, prevValue) => {
   }
 };
 
-export { render, view };
+const initView = ({ onSubmit } = {}) => {
+  view.form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const { value = '' } = evt.target.elements.url;
+    onSubmit(value);
+  });
+};
+
+export { render, view, initView };

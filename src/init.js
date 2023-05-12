@@ -1,8 +1,28 @@
 import onChange from 'on-change';
-import { string } from 'yup';
-import { render, view } from './view';
+import i18next from 'i18next';
+import { string, setLocale } from 'yup';
+import { render, initView } from './view';
+import ruMessages from './locales/ru';
 
 export default () => {
+  i18next.init({
+    lng: 'ru',
+    debug: true,
+    resources: {
+      ru: {
+        translation: ruMessages,
+      },
+    },
+  });
+
+  setLocale({
+    string: {
+      required: i18next.t('feedback_messages.required'),
+      url: i18next.t('feedback_messages.url_invalid'),
+    },
+  });
+
+  const urlSchema = string().url();
 
   const model = onChange(
     {
@@ -17,30 +37,25 @@ export default () => {
     render,
   );
 
-  const urlSchema = string().url('Ссылка должна быть валидным URL');
-  const initControllers = (viewIntance) => {
-    viewIntance.form.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      const { value = '' } = evt.target.elements.url;
-      urlSchema.validate(value.trim())
-        .then((result) => {
-          if (model.feeds.includes(result)) {
-            model.valid = false;
-            model.feedback = 'Такой URL уже добавлен';
-          } else {
-            model.valid = true;
-            model.feedback = 'URL успешно добавлен';
-            model.feeds.push(result);
-            model.form.url = '';
-          }
-        })
-        .catch((e) => {
-          console.log('validation error:', e.message);
+  const onSubmit = (value) => {
+    urlSchema.validate(value.trim())
+      .then((result) => {
+        if (model.feeds.includes(result)) {
           model.valid = false;
-          model.feedback = e.message;
-        });
-    });
+          model.feedback = i18next.t('feedback_messages.url_exist');
+        } else {
+          model.valid = true;
+          model.feedback = i18next.t('feedback_messages.url_added');
+          model.feeds.push(result);
+          model.form.url = '';
+        }
+      })
+      .catch((e) => {
+        console.log('validation error:', e.message);
+        model.valid = false;
+        model.feedback = e.message;
+      });
   };
 
-  initControllers(view);
+  initView({ onSubmit });
 };
