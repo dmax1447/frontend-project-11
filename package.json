@@ -63,6 +63,7 @@
     "lodash": "^4.17.21",
     "npm-check-updates": "^16.6.2",
     "on-change": "^4.0.2",
+    "uuid": "^9.0.0",
     "yup": "^1.1.1"
   }
 }

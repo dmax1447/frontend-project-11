@@ -31,6 +31,7 @@ export default () => {
       form: {
         url: null,
       },
+      urls: [],
       feeds: [],
       feedback: null,
       valid: null,
@@ -44,14 +45,13 @@ export default () => {
   const onSubmit = (value) => {
     urlSchema.validate(value.trim())
       .then((url) => {
-        if (model.feeds.includes(url)) {
+        if (model.urls.includes(url)) {
           model.valid = false;
           model.feedback = i18next.t('feedback_messages.url_exist');
         } else {
           model.valid = true;
           model.feedback = i18next.t('feedback_messages.url_added');
-          model.feeds.push(url);
-          model.form.url = '';
+          model.urls.push(url);
         }
         return url;
       })
@@ -67,11 +67,16 @@ export default () => {
         const isValidContent = status.content_type.includes('application/rss+xml') || status.content_type.includes('application/xml');
         if (status.http_code === 200 && isValidContent) {
           const feed = parseRSS(contents);
+          feed.url = value.trim();
           console.dir(feed);
+          model.feeds.push(feed);
         } else {
           model.valid = false;
           model.feedback = i18next.t('feedback_messages.fetch_error');
         }
+      })
+      .then(() => {
+        model.form.url = '';
       });
   };
 

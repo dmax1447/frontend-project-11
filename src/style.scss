@@ -5,3 +5,9 @@ $color: #252525;
 body {
   color: $color;
 }
+
+.text-muted {
+  --bs-text-opacity: 1;
+  color: #6c757d !important;
+}
+
