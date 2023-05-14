@@ -33,6 +33,7 @@ export default () => {
       },
       urls: [],
       feeds: [],
+      posts: [],
       feedback: null,
       valid: null,
       processErrors: null,
@@ -66,10 +67,10 @@ export default () => {
         console.log({ status, contents });
         const isValidContent = status.content_type.includes('application/rss+xml') || status.content_type.includes('application/xml');
         if (status.http_code === 200 && isValidContent) {
-          const feed = parseRSS(contents);
+          const { feed, posts } = parseRSS(contents);
           feed.url = value.trim();
-          console.dir(feed);
           model.feeds.push(feed);
+          model.posts.push(...posts);
         } else {
           model.valid = false;
           model.feedback = i18next.t('feedback_messages.fetch_error');

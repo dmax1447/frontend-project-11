@@ -58,7 +58,11 @@ const render = (path, value, prevValue) => {
       break;
     case 'feeds':
       view.feeds.innerHTML = getFeedListHtml(value);
-      view.posts.innerHTML = getPostListHtml(value.flatMap((item) => item.posts));
+      break;
+    case 'posts':
+      view.posts.innerHTML = getPostListHtml(value);
+      break;
+    case 'urls':
       break;
     default:
       console.warn('unknown path', path);
