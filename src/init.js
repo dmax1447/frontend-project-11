@@ -60,7 +60,7 @@ export default () => {
           updatePosts(feedId);
         })
         .catch((e) => {
-          console.warn(e.message);
+          throw new Error(e.message);
         });
     }, 5000);
   };
@@ -89,7 +89,8 @@ export default () => {
         updatePosts(feed.id);
       })
       .catch((e) => {
-        console.warn('Ошибка обновления', e.message);
+        model.valid = false;
+        model.feedback = e.message;
       });
   };
 

@@ -10,6 +10,9 @@ function getFeed(url) {
       throw new Error(i18next.t('feedback_messages.network_error'));
     })
     .then((r) => {
+      if (!r?.data?.status) {
+        throw new Error(i18next.t('feedback_messages.http_error'));
+      }
       const {
         contents,
         status,
