@@ -10,7 +10,7 @@ function getFeed(url) {
       throw new Error(i18next.t('feedback_messages.network_error'));
     })
     .then((r) => {
-      console.log('getFeed response:', r);
+      console.log('request response:', r);
       if (r?.status !== 200) {
         console.log('r?.status !== 200');
         throw new Error(i18next.t('feedback_messages.http_error'));
@@ -20,11 +20,11 @@ function getFeed(url) {
         status,
       } = r.data;
       console.log('status & contents:\n', { status, contents });
-      if (!status || !status.http_code || status.http_code !== 200) {
-        console.log('data: !status || !status.http_code || status.http_code !== 200');
-        throw new Error(i18next.t('feedback_messages.http_error'));
-      }
-      const isValidContent = status?.content_type?.includes('application/rss+xml') || status?.content_type?.includes('application/xml');
+      // if (!status || !status.http_code || status.http_code !== 200) {
+      //   console.log('data: !status || !status.http_code || status.http_code !== 200');
+      //   throw new Error(i18next.t('feedback_messages.http_error'));
+      // }
+      const isValidContent = status?.content_type?.includes('xml');
       if (!isValidContent) {
         console.log('!isValidContent');
         throw new Error(i18next.t('feedback_messages.fetch_error'));
