@@ -42,7 +42,7 @@ const getPostListHtml = (list) => {
 };
 
 const render = (path, value, prevValue) => {
-  console.log('render\n', { path, value, prevValue });
+  // console.log('render\n', { path, value, prevValue });
   switch (path) {
     case 'valid':
       view.input.classList[!value ? 'add' : 'remove']('is-invalid');

@@ -1,10 +1,8 @@
 import onChange from 'on-change';
 import i18next from 'i18next';
-import axios from 'axios';
 import { string, setLocale } from 'yup';
 import { render, initView } from './view';
 import ruMessages from './locales/ru';
-import { parseRSS } from './helpers';
 import getFeed from './transport';
 
 export default () => {
@@ -42,7 +40,28 @@ export default () => {
     render,
   );
 
-  const getUrl = (targetUrl) => `https://allorigins.hexlet.app/get?url=${encodeURIComponent(targetUrl)}`;
+  const updatePosts = (feedId) => {
+    if (!feedId) return;
+    const { url } = model.feeds.find((feed) => feed.id === feedId);
+    setTimeout(() => {
+      getFeed(url)
+        .then(({ posts }) => {
+          const existedPostIds = model.posts
+            .filter((post) => post.feedId === feedId)
+            .map((post) => post.guid);
+          const newPosts = posts
+            .filter((item) => !existedPostIds.includes(item.guid))
+            .map((item) => ({ ...item, feedId }));
+          if (newPosts.length) {
+            model.posts.unshift(...newPosts);
+          }
+          updatePosts(feedId);
+        })
+        .catch((e) => {
+          console.warn(e.message);
+        });
+    }, 5000);
+  };
 
   const onSubmit = (value) => {
     const urlValue = value.trim();
@@ -58,16 +77,17 @@ export default () => {
         feed,
         posts,
       }) => {
-        model.feeds.push(feed);
+        const feedWithUrl = { ...feed, url: urlValue };
+        model.feeds.push(feedWithUrl);
         model.posts.push(...posts);
         model.form.url = '';
         model.valid = true;
         model.feedback = i18next.t('feedback_messages.url_added');
         model.urls.push(urlValue);
+        updatePosts(feed.id);
       })
       .catch((e) => {
-        model.valid = false;
-        model.feedback = e.message;
+        console.warn('Ошибка обновления', e.message);
       });
   };
 
