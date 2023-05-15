@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import onChange from 'on-change';
 import i18next from 'i18next';
 import { string, setLocale } from 'yup';
@@ -33,6 +34,7 @@ export default () => {
       urls: [],
       feeds: [],
       posts: [],
+      viewedPostIds: [],
       feedback: null,
       valid: null,
       processErrors: null,
@@ -91,5 +93,11 @@ export default () => {
       });
   };
 
-  initView({ onSubmit });
+  const onPostClick = (id) => {
+    const post = model.posts.find((item) => item.guid === id);
+    model.viewedPostIds.push(id);
+    model.modalPost = post;
+  };
+
+  initView({ onSubmit, onPostClick });
 };
