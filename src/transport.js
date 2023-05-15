@@ -29,7 +29,12 @@ function getFeed(url) {
       //   console.log('!isValidContent');
       //   throw new Error(i18next.t('feedback_messages.fetch_error'));
       // }
-      return parseRSS(contents);
+      try {
+        const parsed = parseRSS(contents);
+        return parsed;
+      } catch (e) {
+        throw new Error(i18next.t('feedback_messages.fetch_error'));
+      }
     })
     .catch((e) => {
       console.log('error getFeed');
