@@ -101,4 +101,5 @@ export default () => {
   };
 
   initView({ onSubmit, onPostClick });
+  console.log('init done');
 };
