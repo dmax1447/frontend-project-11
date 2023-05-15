@@ -57,10 +57,15 @@ export default () => {
           if (newPosts.length) {
             model.posts.unshift(...newPosts);
           }
-          updatePosts(feedId);
+          model.valid = true;
+          model.feedback = i18next.t('feedback_messages.url_added');
         })
         .catch((e) => {
-          throw new Error(e.message);
+          model.valid = false;
+          model.feedback = e.message;
+        })
+        .finally(() => {
+          updatePosts(feedId);
         });
     }, 5000);
   };
