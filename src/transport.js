@@ -18,7 +18,9 @@ function getFeed(url) {
         contents,
         status,
       } = r.data;
+      console.log('status & contents:\n', { status, contents });
       if (!status || !status.http_code || status.http_code !== 200) {
+        console.log(1);
         throw new Error(i18next.t('feedback_messages.http_error'));
       }
       const isValidContent = status?.content_type?.includes('application/rss+xml') || status?.content_type?.includes('application/xml');
@@ -28,6 +30,8 @@ function getFeed(url) {
       return parseRSS(contents);
     })
     .catch((e) => {
+      console.log(2);
+      console.log('error getFeed');
       console.warn(e);
       throw new Error(e.message || i18next.t('feedback_messages.generic_network_error'));
     });
