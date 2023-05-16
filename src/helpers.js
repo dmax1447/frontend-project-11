@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const parser = new DOMParser();
 
-export const parseRSS = (string) => {
+export default (string) => {
   const parsed = parser.parseFromString(string, 'application/xml');
   console.log(parsed);
   const feedId = uuidv4();

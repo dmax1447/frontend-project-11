@@ -53,8 +53,7 @@ const updatePostReadState = (viewedPostIds) => {
   });
 };
 
-function render(path, value, prevValue) {
-  // console.log('render\n', { path, value, prevValue });
+function render(path, value) {
   switch (path) {
     case 'valid':
       view.input.classList[!value ? 'add' : 'remove']('is-invalid');

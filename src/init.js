@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import * as bootstrap from 'bootstrap';
 import onChange from 'on-change';
 import i18next from 'i18next';
@@ -106,5 +107,4 @@ export default () => {
   };
 
   initView({ onSubmit, onPostClick });
-  console.log('init done');
 };

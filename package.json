@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "webpack serve --mode=development",
     "build": "cross-env NODE_ENV=production webpack",
+    "lint": "npx eslint ./src",
     "test": "jest --colors",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage"
